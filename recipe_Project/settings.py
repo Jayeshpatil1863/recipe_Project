@@ -1,6 +1,6 @@
-
-from pathlib import Path
 import os
+import dj_database_url
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -10,12 +10,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-jj$gk@$&xwk*tz^6slo6s(09n2e@2m)@qgm$w2w(=9-h92q-%n'
+# ### CHANGED: Safe for Production
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-jj$gk@$&xwk*tz^6slo6s(09n2e@2m)@qgm$w2w(=9-h92q-%n')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# ### CHANGED: Auto-detects Render
+DEBUG = 'RENDER' not in os.environ
 
+# ### CHANGED: Auto-detects Render URL
 ALLOWED_HOSTS = []
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 
 # Application definition
@@ -33,6 +39,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', # ### ADDED: For Static Files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -43,29 +50,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'recipe_Project.urls'
 
-# TEMPLATES = [
-#     {
-#         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-#         'DIRS': [],
-#         'APP_DIRS': True,
-#         'OPTIONS': {
-#             'context_processors': [
-#                 'django.template.context_processors.debug',
-#                 'django.template.context_processors.request',
-#                 'django.contrib.auth.context_processors.auth',
-#                 'django.contrib.messages.context_processors.messages',
-#             ],
-#         },
-#     },
-# ]
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR / 'recipe_app/templates',  # Make sure this is correctly configured
+            BASE_DIR / 'recipe_app/templates', 
         ],
-        'APP_DIRS': True,  # This should be True to allow searching in app-specific templates
+        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -83,6 +74,8 @@ WSGI_APPLICATION = 'recipe_Project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# ### CHANGED: Hybrid Logic
+# 1. Defaults to your Local MySQL (Keep running XAMPP/MySQL on laptop)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -94,6 +87,14 @@ DATABASES = {
     }
 }
 
+# 2. If on Render (Cloud), Switch to Neon (PostgreSQL) automatically
+database_url = os.environ.get("DATABASE_URL")
+if database_url:
+    DATABASES['default'] = dj_database_url.parse(
+        database_url,
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
 
 
 # Password validation
@@ -130,10 +131,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-
 STATIC_URL = '/static/'
-MEDIA_ROOT= os.path.join(BASE_DIR, 'media')
-MEDIA_URL='/'
+
+# ### ADDED: For Render CSS
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# ### CHANGED: Fixed Media URL (Using '/' is risky)
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 
 # Default primary key field type
