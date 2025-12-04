@@ -10,14 +10,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# ### CHANGED: Safe for Production
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-jj$gk@$&xwk*tz^6slo6s(09n2e@2m)@qgm$w2w(=9-h92q-%n')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# ### CHANGED: Auto-detects Render
 DEBUG = 'RENDER' not in os.environ
 
-# ### CHANGED: Auto-detects Render URL
 ALLOWED_HOSTS = []
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
@@ -39,7 +36,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', # ### ADDED: For Static Files
+    'whitenoise.middleware.WhiteNoiseMiddleware', 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -74,8 +71,7 @@ WSGI_APPLICATION = 'recipe_Project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# ### CHANGED: Hybrid Logic
-# 1. Defaults to your Local MySQL (Keep running XAMPP/MySQL on laptop)
+# 1. This is your LOCAL setup (MySQL). It works on your laptop.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -87,7 +83,8 @@ DATABASES = {
     }
 }
 
-# 2. If on Render (Cloud), Switch to Neon (PostgreSQL) automatically
+# 2. This is the CLOUD setup. 
+# You do NOT paste the link here. This code grabs it from Render automatically.
 database_url = os.environ.get("DATABASE_URL")
 if database_url:
     DATABASES['default'] = dj_database_url.parse(
@@ -98,8 +95,6 @@ if database_url:
 
 
 # Password validation
-# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -117,32 +112,18 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/5.0/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
-
 STATIC_URL = '/static/'
-
-# ### ADDED: For Render CSS
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# ### CHANGED: Fixed Media URL (Using '/' is risky)
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
