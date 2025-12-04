@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {%load static%}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+
+    <title>Recepie</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <section class="hero">
+        
+        <div class="hero-section">
+            
+            <h2>Welcome</h2>
+            
+            <p style="color: rgb(2, 2, 2); padding-left: 30px; font-size: 18px;">search mouth watering recipes to satisfy your craving.</p>
+            
+            <div>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert {{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            <form method="post" action="{%url 'recipe_app:search'%}" class="search-box border">
+                {%csrf_token%}
+
+                <input type="text" name="search" value="{{rTitle}}" placeholder="Search Recipe">
+                <button type="submit"> Search</button>
+            </form>
+            {% if rl is not None %}  
+                {% if rl %}
+                    <ul>
+                        {% for i in rl %}
+                            <li>{{ i.Title }}</li>  
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endif %}
+            </div>
+          
+            
+            
+        </div>
+        
+    </section>
+    {%block body%} {%endblock%}
+    {%include "footer.html"%}
+</body>
+</html>

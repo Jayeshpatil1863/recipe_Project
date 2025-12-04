@@ -1,0 +1,42 @@
+
+{%extends 'main.html'%}
+
+{% block head%} 
+{%include 'slider.html'%}
+{%endblock%}
+
+{%block body%}
+<table class="table">
+    <tr>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Cooking_Time</th>
+        <th>Servings</th>
+        <th>Descriptions</th>
+        <th>Image</th>
+        <th>Ingrediants</th>
+        <th>Instructions</th>
+        <th>Price</th>
+        <th>Category</th>
+
+
+        <th colspan="2">Action</th>
+    </tr>
+    {%for i in rl%}
+    <tr>
+        <td>{{i.id}}</td>
+        <td>{{i.Title}}</td>
+        <td>{{i.Cooking_Time}}</td>
+        <td>{{i.Servings}}</td>
+        <td><textarea cols="30" rows="3">{{i.Description}}</textarea></td>
+        <td><img src="{{i.Image}}" width="100px" height="70px"></td>
+        <td><textarea cols="30" rows="3">{{i.Ingrediants}}</textarea></td>
+        <td><textarea cols="30" rows="3">{{i.Instructions}}</textarea></td>
+        <td>Rs.{{i.price}}</td>
+        <td>{{i.Category}}</td>
+        
+        
+    </tr>
+    {%endfor%}
+</table>
+{%endblock%}

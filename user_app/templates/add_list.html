@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {%load static%}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+   
+
+</head>
+<body class="pro">
+    {%include 'navbar.html'%}
+    <div style="padding-top: 200px; padding-bottom: 250px; padding-left: 470px;">
+    
+        <table border="10" cellspacing="15" style="background-color: #C4D9FF; border-color: black; padding: 10px; ">
+            <h2 style="padding-left: 110px; color: black;">Profile</h2><br>
+            <tr>
+                <th>Id</th>
+                <td>{{user.id}}</td>
+            </tr>
+            <tr>
+                <th>Username</th>
+                <td>{{user.username}}</td>
+            </tr>
+            <tr>
+                <th>Date Joined </th>
+                <td>{{user.date_joined}}</td>
+
+            </tr>
+            <tr class="btn">
+                <th rowspan="2">Action</th>
+                <td style="text-align: center; " >
+                <a href="{%url 'user_app:edit' user.id%}" >Edit Profile</a></td>
+            </tr>
+            <tr  class="btn"><th><a href="{%url 'user_app:spe_list' user.id%}" >View Recipes</a></th>
+            </tr>
+        </table>
+
+        
+    </div>
+    {% include 'footer.html' %}
+</body>
+</html>

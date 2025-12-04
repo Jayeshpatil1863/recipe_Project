@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {%load static%}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <title>Recepie</title>
+    {%include 'navbar.html' %}
+    
+</head>
+{%load static%}
+<body class="abc" topmargin="100" >    
+    <div class="card-footer p-4 pt-0 border-top-0 bg-black" style="padding-top: 200px;">
+        
+
+        
+        <div class="containe mt-4">
+            
+            <div >
+            
+            {%if lmg is not None%}
+            <h1 style="color: rgb(212, 58, 58);">{{lmg}}</h1>
+            {%endif%}
+            <div  class="login-container" style="padding-bottom: 250px; padding-left: 450px; padding-right: 400px;  color: rgb(9, 10, 8);">
+                                      
+            
+                
+                <form method="post" class="login-form" style="background-color: rgba(132, 132, 135, 0.662); border-radius: 40px; border: 1px solid black; box-shadow: 5px 5px 40px rgb(0 0 0 / 80%);  width: 380px; height: 350px; padding-top: 20px;" >
+                    <h2 style=" color: black; text-align: center; "  >User Login </h2><br><br>
+                    <div style="padding-left: 70px;">
+
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <label for="uname">Username</label><br>
+                        <input type="text" id="uname" name="uname" placeholder="Enter your username" required>
+                    </div><br>
+    
+                    <div class="input-group">
+                        <label for="passw">Password</label><br>
+                        <input type="password" id="passw" name="passw" placeholder="Enter your password" required><br><br>
+                    </div>
+    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="remember">
+                        <label for="remember">Remember Me</label><br><br>
+                    </div>
+                    <div class="button" >
+                    <button type="submit" class="btn">Login</button><br><br><br>
+                    </div>
+                    <!-- <p class="forgot-password">
+                        <a href="">Forgot Password?</a>
+                    </p><br><br> -->
+    
+                    <p class="signup-text">Don't have an account? <button type="submit" class="button"><a href="{%url 'user_app:adduser'%}">Sign up</a></p></div></button>
+                    </div>
+                </form>
+            </div>
+            </div>
+        </div>
+        
+        
+    </div>
+    
+</body>
+{% include 'footer.html' %}

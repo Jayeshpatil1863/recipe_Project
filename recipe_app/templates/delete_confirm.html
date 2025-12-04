@@ -1,0 +1,24 @@
+<!-- templates/delete_confirm.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Delete</title>
+</head>
+<body class="recipes">
+    <div class="recipe_section">
+    <div class="recipe-section">
+        <img style="width: 400px; height: 400px; margin-left: 35%; margin-top: 70px;margin-bottom: 20px; border-radius: 30px; " src="{{ recipe.Image.url }}" alt="">
+        <h2 style="text-align: center;">Are you sure you want to delete "{{ recipe.Title }}"?</h2>
+    </div>
+    </div>
+    
+    <form  method="POST" style="text-align: center;">
+        {% csrf_token %}
+        
+        <button type="submit">Yes, Delete</button>
+        <a href="/"><button type="button">Cancel</button></a>
+    </form>
+</body>
+</html>

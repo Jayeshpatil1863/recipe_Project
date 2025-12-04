@@ -1,0 +1,35 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ rl.Title }}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"> 
+
+</head>
+<body>
+    {%include 'navbar.html' %}
+    <div class="content">
+        <div  style="padding-top: 50px; padding-left: 50px; ">
+            <h2 style="text-align: center;">Recipe Image</h2>  <br>   
+            <div class="view">
+                <div class="View-Img"><img src="{{ rl.Image.url }}" alt="{{ rl.Title }}"></div>
+            </div>
+        </div>
+    
+        <div class="text" style="padding-top: 90px; padding-left: 100px; padding-right: 100px; text-align: center;">
+            <h2><b>Title : </b>{{ rl.Title }}</h2><br><br>
+            <p><b>Cooking Time : </b>{{ rl.Cooking_Time }}</p><br>
+            <p><b>Servings : </b>{{ rl.Servings }}</p><br>
+            <p><b>Category : </b>{{ rl.Category }}</p><br>
+            <p><b>Ingrediants : </b>{{ rl.Ingrediants }}</p><br>
+            <p><b>Description: </b>{{ rl.Description }}</p><br><br>
+            
+        </div>
+    </div>
+    
+    {% include 'footer.html' %}
+</body>
+</html>
+

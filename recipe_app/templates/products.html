@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+
+</head>
+<body>
+    
+
+<section class="recipes">
+    <a name="section">.</a>
+    <h1>Featured Recipes</h1>
+    <div class="recipe-section">
+        {% for i in page_obj %}
+        <div class="recipe-card">
+            <img src="{{ i.Image.url }}" alt="">
+            <h2>{{ i.Title }}</h2>
+            <a href="{% url 'recipe_app:recipe' i.id %}">View Recipe</a>
+        </div>
+        {% empty %}
+        <p>No recipes available.</p>
+        {% endfor %}
+    </div>
+
+</section>
+<!----------- Pagination Controls -------------->
+<div class="page" style="padding-left: 1000px;" >
+    
+    {% if page_obj.has_previous %}
+    <button class="btn" ><a href="?page=1" style="text-decoration: none; color: rgb(0, 0, 0); ">First</a></button>
+    <button class="btn"><a href="?page={{ page_obj.previous_page_number }}" style="text-decoration: none;  color: rgb(0, 0, 0); ">Previous</a></button>
+        
+        
+    {% endif %}
+
+    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+        <button class="btn"><a href="?page={{ page_obj.next_page_number }}" style="text-decoration: none;  color: rgb(0, 0, 0); ">Next</a></button>
+        <button class="btn"><a href="?page={{ page_obj.paginator.num_pages }}" style="text-decoration: none;  color: rgb(0, 0, 0); ">Last</a></button>
+        
+    {% endif %}
+    
+</div>
+
+</body>
+</html>

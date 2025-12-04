@@ -1,0 +1,35 @@
+<header>
+    <div class="container">
+        
+        <h1><a href="/"  >HomeChef Connect</a></h1>
+        
+        <nav>
+            <div class="menu-icon">&#9776;</div>
+            <ul class="nav-list">
+                <form >
+                <li><a href="#section"><a href="/">Home</a></a></li>
+                {%if user.is_authenticated%}
+                <li><a href="{%url 'recipe_app:add'%}">Add Recipe</a></li>
+                <li><a href="{%url 'user_app:logout' %}">Logout</a></li>
+                {%else%}
+                <li><a href="#add"><a href="{%url 'user_app:adduser'%}">Register</a></a></li>
+                <li><a href="{%url 'user_app:login' %}">Login</a></li>
+                {%endif%}
+                <li><a href="#about">About Us</a></li>
+                
+                <button class="b" type="submit" style="padding:7px;border-radius: 20px;font-size: 14px;">
+                    {%if user.is_authenticated%}
+                    <h4><a href="{%url 'user_app:users' user.id%}" style="color: black;">Welcome  {{user}}</a></h4>
+                    {%else%}
+                    <h4><a href="#" style="color:black;">Welcome</a></h4>
+                    {%endif%}
+                </button>
+                </form>
+
+                  
+            
+            </ul>
+        </nav>
+        </a>
+    </div>
+</header>
